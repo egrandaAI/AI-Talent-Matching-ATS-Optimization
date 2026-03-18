@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Talent Matching & ATS Optimization — Consulting Style Report</title>
+  <style>
+    :root{
+      --bg:#05070d;
+      --panel:#0f1528;
+      --ink:#f5f7ff;
+      --muted:#b5bfd6;
+      --line:#23304f;
+      --accent:#ff6a2a;
+      --accent-2:#7a5cff;
+      --accent-3:#2fd6c4;
+      --accent-4:#4ea5ff;
+      --shadow:0 18px 46px rgba(0,0,0,.28);
+      --radius:24px;
+      --max:1160px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1000px 500px at 90% -10%, rgba(122,92,255,.18), transparent 60%),
+        radial-gradient(800px 400px at 0% 0%, rgba(79,165,255,.12), transparent 55%),
+        linear-gradient(180deg,#05070d 0%, #09101d 100%);
+      line-height:1.6;
+    }
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 24px}
+    .hero{
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(850px 400px at 85% 5%, rgba(255,106,42,.14), transparent 55%),
+        radial-gradient(650px 330px at 15% 0%, rgba(122,92,255,.14), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+    }
+    .topbar{
+      display:flex; justify-content:space-between; align-items:center;
+      gap:18px; padding:18px 0 8px;
+    }
+    .brand{font-weight:700; letter-spacing:.2px}
+    .toplinks a{
+      text-decoration:none; color:var(--muted); margin-left:18px; font-size:.95rem;
+    }
+    .hero-grid{
+      display:grid; grid-template-columns:1.15fr .85fr; gap:28px;
+      padding:46px 0 54px;
+    }
+    .eyebrow{
+      font-size:.83rem;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:var(--muted);
+      font-weight:700;
+    }
+    h1{
+      font-size:clamp(2.5rem,4.5vw,4.7rem);
+      line-height:0.98;
+      letter-spacing:-.05em;
+      margin:16px 0 18px;
+      color:#ffffff;
+    }
+    .subtitle{
+      font-size:1.18rem;
+      color:var(--muted);
+      max-width:740px;
+      margin-bottom:24px;
+    }
+    .pill-row{
+      display:flex; flex-wrap:wrap; gap:10px; margin-bottom:24px;
+    }
+    .pill{
+      padding:9px 14px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:999px;
+      background:rgba(255,255,255,.03);
+      color:#d8def0;
+      font-size:.92rem;
+    }
+    .cta-row{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{
+      display:inline-block; text-decoration:none; font-weight:700;
+      font-size:.96rem; border-radius:16px; padding:13px 18px;
+    }
+    .btn.primary{
+      background:linear-gradient(135deg,var(--accent-2),#5f35ff);
+      color:#fff;
+      box-shadow:var(--shadow);
+    }
+    .btn.secondary{
+      background:rgba(255,255,255,.04);
+      color:#fff; border:1px solid rgba(255,255,255,.08);
+    }
+    .panel{
+      background:linear-gradient(180deg, rgba(18,26,49,.95), rgba(12,18,33,.95));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:30px;
+      padding:24px;
+      box-shadow:var(--shadow);
+      align-self:start;
+    }
+    .metric-title{
+      font-size:.82rem;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:var(--muted);
+      font-weight:700;
+      margin-bottom:8px;
+    }
+    .metric-big{
+      font-size:2.5rem;
+      font-weight:800;
+      line-height:1.05;
+      margin:2px 0 8px;
+    }
+    .muted{color:var(--muted)}
+    .mini-kpis{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:18px;
+    }
+    .mini{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:16px;
+      min-height:110px;
+    }
+    .mini .v{font-size:1.7rem; font-weight:800}
+    .mini .t{font-size:.88rem; color:var(--muted)}
+    main section{padding:34px 0}
+    .section-head{
+      display:flex; justify-content:space-between; align-items:end;
+      gap:18px; margin-bottom:18px;
+    }
+    .section-head h2{
+      margin:0; font-size:1.72rem; letter-spacing:-.03em;
+    }
+    .section-head p{
+      margin:0; color:var(--muted);
+    }
+    .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:18px}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+    .card h3{margin:0 0 10px; font-size:1.08rem; color:#fff}
+    .card p{margin:0; color:var(--muted)}
+    .highlight{
+      border-left:4px solid var(--accent);
+      background:linear-gradient(180deg, rgba(255,106,42,.08), rgba(255,255,255,.02));
+    }
+    .note{
+      padding:16px 18px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(122,92,255,.10), rgba(255,255,255,.02));
+      color:#dce3f4;
+    }
+    ul.clean{margin:10px 0 0 18px; padding:0}
+    ul.clean li{margin:8px 0; color:var(--muted)}
+    table{
+      width:100%; border-collapse:collapse;
+      background:rgba(255,255,255,.02);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:20px;
+      overflow:hidden;
+    }
+    th,td{
+      padding:14px; text-align:left; vertical-align:top;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    th{
+      background:rgba(255,255,255,.03);
+      color:#d9e2f7; font-size:.88rem;
+    }
+    tr:last-child td{border-bottom:none}
+    .accent{color:var(--accent)}
+    .accent2{color:var(--accent-2)}
+    .accent3{color:var(--accent-3)}
+    .accent4{color:var(--accent-4)}
+    footer{
+      padding:28px 0 56px;
+      color:var(--muted);
+      font-size:.92rem;
+    }
+    .footer-box{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:18px;
+    }
+    @media (max-width: 980px){
+      .hero-grid,.grid-2,.grid-3,.mini-kpis{grid-template-columns:1fr}
+      .topbar{flex-direction:column; align-items:flex-start}
+      .toplinks a{margin-left:0; margin-right:14px}
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">Estefania Granda — Consulting Style Case Report</div>
+        <div class="toplinks">
+          <a href="#summary">Summary</a>
+          <a href="#research">Research</a>
+          <a href="#solution">Solution</a>
+          <a href="#impact">Impact</a>
+        </div>
+      </div>
+
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">AI / Labour Market / Recruitment Systems Case Study</div>
+          <h1>AI Talent Matching & ATS Optimization</h1>
+          <div class="subtitle">
+            A consulting-style redesign of our ESSCA Data Hackathon project, reframing a labour market mismatch problem into an AI-enabled recruitment system that reduces rigid ATS filtering and reconnects viable talent with hard-to-fill industrial jobs.
+          </div>
+
+          <div class="pill-row">
+            <div class="pill">ATS bias</div>
+            <div class="pill">Talent matching</div>
+            <div class="pill">Labour market analytics</div>
+            <div class="pill">AI explainability</div>
+            <div class="pill">Reskilling pathways</div>
+          </div>
+
+          <div class="cta-row">
+            <a class="btn primary" href="#solution">See solution architecture</a>
+            <a class="btn secondary" href="#impact">See business impact</a>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="metric-title">Headline finding</div>
+          <div class="metric-big">This is not a labour shortage.</div>
+          <div style="font-weight:700; font-size:1.2rem; margin-bottom:8px">It is a structural skills mismatch.</div>
+          <div class="muted">
+            In AURA, unemployment fell sharply while industrial hiring difficulty remained very high. People are available. Jobs are available. The current system fails to connect them.
+          </div>
+
+          <div class="mini-kpis">
+            <div class="mini"><div class="v">293K</div><div class="t">Unemployed in AURA</div></div>
+            <div class="mini"><div class="v">8,000+</div><div class="t">Industrial jobs unfilled / year</div></div>
+            <div class="mini"><div class="v">61.5%</div><div class="t">Avg industrial difficulty rate</div></div>
+            <div class="mini"><div class="v">-33K</div><div class="t">Unemployment drop in 18 months</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section id="summary">
+      <div class="section-head">
+        <h2>Executive Summary</h2>
+        <p>The decision-maker view</p>
+      </div>
+      <div class="grid-3">
+        <div class="card highlight">
+          <h3>Business question</h3>
+          <p>
+            Why do industrial jobs remain hard to fill in AURA even as unemployment falls — and how can AI improve matching without simply accelerating flawed recruitment filters?
+          </p>
+        </div>
+        <div class="card">
+          <h3>Main conclusion</h3>
+          <p>
+            The central problem is not a lack of available workers. It is a structural mismatch between job requirements, candidate profiles, and the way traditional ATS systems screen applications.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Strategic takeaway</h3>
+          <p>
+            Recruitment systems should move from binary keyword filtering to graded, explainable talent evaluation combined with proactive rediscovery of near-match candidates.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="context">
+      <div class="section-head">
+        <h2>Hackathon Context</h2>
+        <p>What the challenge asked us to solve</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Challenge brief</h3>
+          <p>
+            The 2026 ESSCA Data Hackathon focused on the Auvergne-Rhône-Alpes region and asked participants to explore how AI could help address persistent job market mismatches, not just through technical automation, but by incorporating the broader social, training, cultural, and geographic reasons why needs remain unmet.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Evaluation criteria</h3>
+          <p>
+            Teams were evaluated on originality, feasibility, data robustness, and overall relevance to the real labour market problem — which made solution framing and practical fit just as important as analytical insight.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="research">
+      <div class="section-head">
+        <h2>Research & Market Findings</h2>
+        <p>What the AURA analysis revealed</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>Unemployment is falling</h3>
+          <p>
+            AURA unemployment dropped from roughly <span class="accent">327K</span> to <span class="accent">293K</span> in about 18 months, yet industrial roles remain persistently difficult to fill.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Industrial hiring is still broken</h3>
+          <p>
+            The region still faces <span class="accent">8,000+</span> industrial jobs left unfilled each year and an average industrial recruitment difficulty rate of <span class="accent">61.5%</span>.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Difficulty is structural, not temporary</h3>
+          <p>
+            Clustering of jobs by demand and recruitment difficulty identified roughly <span class="accent">60 structurally hard-to-fill jobs</span>, showing that the mismatch is systemic rather than random.
+          </p>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:18px">
+        <strong>Core paradox:</strong> unemployment is falling, yet industrial vacancies remain hard to fill. This confirms that the issue is not simple labour scarcity — it is the failure of current matching systems to connect available workers with viable roles.
+      </div>
+    </section>
+
+    <section id="ats-problem">
+      <div class="section-head">
+        <h2>Why Traditional ATS Systems Fail</h2>
+        <p>The recruitment bottleneck behind the mismatch</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card highlight">
+          <h3>Binary filtering logic</h3>
+          <p>
+            Traditional ATS tools still rely heavily on Boolean keyword matching and rigid eligibility rules. This produces binary outcomes: either a candidate passes, or is discarded.
+          </p>
+          <ul class="clean">
+            <li>Resumes can be rejected before human review.</li>
+            <li>Formatting and keyword absence can trigger exclusion.</li>
+            <li>Near-match candidates are often eliminated instead of evaluated.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Double penalty for industrial workers</h3>
+          <p>
+            Industrial candidates are especially vulnerable because their CVs may be “keyword-poor” by nature and certifications may be expired even when they are quickly renewable. This means viable profiles can be screened out for reasons that do not reflect actual trainability or job potential.
+          </p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <table>
+          <thead>
+            <tr>
+              <th>Observed issue</th>
+              <th>What it means in practice</th>
+              <th>Impact on hiring</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Boolean keyword matching</strong></td>
+              <td>ATS checks exact terms and predefined requirements instead of broader relevance.</td>
+              <td>Viable candidates are excluded too early.</td>
+            </tr>
+            <tr>
+              <td><strong>Binary pass/fail logic</strong></td>
+              <td>Systems cannot express “almost fit” or “trainable with minor gaps”.</td>
+              <td>Recruiters lose access to near-match talent pools.</td>
+            </tr>
+            <tr>
+              <td><strong>No explainability</strong></td>
+              <td>Candidates and recruiters do not know what is missing or how close the profile is.</td>
+              <td>No learning loop, no retraining path, no recovery mechanism.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="solution">
+      <div class="section-head">
+        <h2>Proposed Solution</h2>
+        <p>Two functionalities, one closed-loop system</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card highlight">
+          <h3>01 — ATS FairMatch Layer</h3>
+          <p>
+            A plug-in layer sitting between <strong>Applications → ATS → Recruiter</strong>, designed to replace binary filtering with a graded, explainable evaluation model.
+          </p>
+          <ul class="clean">
+            <li><span class="accent2">Fit score (0–100)</span></li>
+            <li><span class="accent3">Explainability</span>: why the score is what it is</li>
+            <li><span class="accent4">Gap plan</span>: what is missing and how long it may take to close</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>02 — Talent Re-Discovery Engine</h3>
+          <p>
+            A proactive outreach layer that scans the regional unemployed talent pool, identifies viable near-match profiles, and invites them to apply when a company receives too few relevant CVs for a critical role.
+          </p>
+          <ul class="clean">
+            <li>Searches unemployed talent pools in AURA</li>
+            <li>Finds potential profiles even if not “perfect”</li>
+            <li>Sends opportunity alerts and application invitations</li>
+            <li>Loops candidates back into the FairMatch layer</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:18px">
+        <strong>Integrated logic:</strong> the Talent Re-Discovery Engine finds who to look at, while the ATS FairMatch Layer decides how to evaluate them. Together, they transform recruitment failure into structured decision-making.
+      </div>
+    </section>
+
+    <section id="how-it-works">
+      <div class="section-head">
+        <h2>How the System Evaluates Candidates</h2>
+        <p>From rigid rejection to structured decision support</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Inputs</h3>
+          <ul class="clean">
+            <li>CV (structured or free text)</li>
+            <li>Job description (structured or free text)</li>
+            <li>Policy rules distinguishing mandatory vs preferred requirements</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Outputs</h3>
+          <ul class="clean">
+            <li>Fit score from 0 to 100</li>
+            <li>Explainability: top drivers and blockers</li>
+            <li>Gap plan: what is missing and expected time to close</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <table>
+          <thead>
+            <tr>
+              <th>Illustrative candidate case</th>
+              <th>Traditional ATS outcome</th>
+              <th>FairMatch outcome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Experienced but filtered out</strong></td>
+              <td>Rejected due to expired formal certification</td>
+              <td>Still considered viable if the certification can be renewed quickly</td>
+            </tr>
+            <tr>
+              <td><strong>Strong profile with slightly fewer years</strong></td>
+              <td>Rejected for not matching “5+ years” rule exactly</td>
+              <td>Receives a high fit score and remains visible to recruiter</td>
+            </tr>
+            <tr>
+              <td><strong>Junior but trainable</strong></td>
+              <td>Rejected for lack of years</td>
+              <td>Explained as a near-match with a possible training path</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="impact">
+      <div class="section-head">
+        <h2>Business Impact</h2>
+        <p>Why this matters beyond the hackathon</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>Reduce talent loss</h3>
+          <p>
+            By capturing near-match candidates instead of discarding them, employers regain access to profiles that would otherwise never reach human review.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Improve recruiter decision quality</h3>
+          <p>
+            Fit scoring, explainability, and gap plans create a more nuanced decision framework than binary ATS outputs.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Support reskilling logic</h3>
+          <p>
+            The system does not only say “no”. It identifies what is missing and frames trainability as part of the hiring decision.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:18px">
+        <div class="card">
+          <h3>Why this is relevant to AURA</h3>
+          <p>
+            The solution is directly aligned with the region’s paradox: workers exist, jobs exist, but connection mechanisms are failing. By focusing on structurally hard-to-fill jobs, the model targets the part of the market where the impact is most urgent.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Why this is strategically strong</h3>
+          <p>
+            This is not just an HR automation idea. It combines labour market analytics, system redesign, explainable AI, and fairness-aware decision support — making it relevant for HR tech, workforce strategy, and public-private employment innovation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="ethics">
+      <div class="section-head">
+        <h2>Ethical Value</h2>
+        <p>Why AI should not make unfair screening faster</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card highlight">
+          <h3>Fairer candidate visibility</h3>
+          <p>
+            The solution reduces exclusion caused by brittle rules and limited keyword logic, making recruitment more transparent and less dependent on formatting or exact lexical matches.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Explainability over opacity</h3>
+          <p>
+            Rather than hiding rejection behind black-box filters, the model gives recruiters and candidates a clearer understanding of blockers, gaps, and possible paths forward.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="outcome">
+      <div class="section-head">
+        <h2>Hackathon Outcome</h2>
+        <p>Why this project stood out</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>What made the concept strong</h3>
+          <ul class="clean">
+            <li><strong>Originality:</strong> focused on industrial structural mismatch rather than a generic healthcare angle</li>
+            <li><strong>Feasibility:</strong> built on real public AURA datasets</li>
+            <li><strong>Robustness:</strong> grounded in labour shortage and unemployment data</li>
+            <li><strong>Relevance:</strong> directly addressed the region’s core paradox</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Portfolio value</h3>
+          <p>
+            This project demonstrates the ability to combine data analysis, AI system thinking, labour market insight, and product-style solution design under time pressure — and turn them into a coherent business proposal.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div class="footer-box">
+      <strong>About this version</strong><br/>
+      This page is a dark-theme consulting-style redesign of the original hackathon materials, inspired by the visual language of the final team presentation and structured as an executive case study for portfolio use.
+    </div>
+  </footer>
+</body>
+</html>
