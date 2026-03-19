@@ -7,7 +7,7 @@ Explore the full consulting-style report here:
 
 ## 🧠 Product Demo — ATS FairMatch
 Visit the product demo here:
-👉 [Try Interactive Demo](https://github.com/egrandaAI/data-skill-demo.git)
+👉 [Try Interactive Demo](https://data-skill-demo.lovable.app/)
 
 This demo simulates how the FairMatch ATS layer transforms traditional binary filtering into a contextual, explainable decision system — revealing candidates that would otherwise be rejected.
 
