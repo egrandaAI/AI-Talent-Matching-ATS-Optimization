@@ -1,6 +1,10 @@
 # AI-Driven Talent Matching & ATS Bias Reduction  
 ### Rethinking Recruitment Systems through Data, AI and System Design
 
+## 🌐 Live Report
+Explore the full consulting-style report here:  
+👉 [View Interactive Report](https://egrandaAI.github.io/AI-Talent-Matching-ATS-Optimization/)
+
 ---
 
 ## 🚀 Overview
