@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURA FairMatch Demo — Industrial Electrician</title>
+  <style>
+    :root{
+      --bg:#060914; --panel:#0d1426; --text:#f4f7ff; --muted:#aeb8d0; --line:#22304f;
+      --accent:#7c5cff; --accent2:#2fd5c4; --good:#31d38b; --warn:#ffb347; --danger:#ff6b6b;
+      --radius:22px; --shadow:0 20px 50px rgba(0,0,0,.35)
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;font-family:Inter,system-ui,Arial,sans-serif;color:var(--text);
+      background:
+        radial-gradient(900px 400px at 90% -10%,rgba(124,92,255,.18),transparent 55%),
+        radial-gradient(700px 350px at 10% 0%,rgba(47,213,196,.08),transparent 55%),
+        linear-gradient(180deg,#060914 0%,#09101d 100%);
+      line-height:1.55
+    }
+    .wrap{max-width:1360px;margin:0 auto;padding:24px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
+    .brand{font-weight:800}
+    .subtitle,.small{color:var(--muted)}
+    .badge,.pill,.flag,.tag{
+      display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;
+      background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font-size:.9rem;color:#dce4f7
+    }
+    .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-bottom:18px}
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);box-shadow:var(--shadow)
+    }
+    .hero-left,.hero-right,.jobbox,.main-panel,.right-panel,.candidate-list{padding:22px}
+    .eyebrow{text-transform:uppercase;font-size:.8rem;letter-spacing:.16em;color:var(--muted);font-weight:700}
+    h1{margin:12px 0;font-size:clamp(2rem,4vw,4rem);line-height:1.02;letter-spacing:-.04em}
+    .hero-copy{color:var(--muted);font-size:1.06rem}
+    .pills,.cand-flags,.toggle,.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .layout{display:grid;grid-template-columns:360px 1fr 380px;gap:18px}
+    .job-title{font-size:1.35rem;font-weight:800}
+    .company{font-weight:600}
+    .list{display:grid;gap:8px;margin-top:12px}
+    .req,.item,.mini,.gap-step,.compare-box,.cand,.mini-panel{
+      background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px
+    }
+    .req,.item{display:flex;justify-content:space-between;gap:10px;padding:10px 12px}
+    .mandatory{background:rgba(255,107,107,.13);color:#ffb1b1}
+    .preferred{background:rgba(124,92,255,.14);color:#d3c6ff}
+    .cand{padding:14px;cursor:pointer;margin-bottom:10px}
+    .cand.active{
+      border-color:rgba(124,92,255,.45);
+      background:linear-gradient(180deg,rgba(124,92,255,.10),rgba(255,255,255,.03))
+    }
+    .cand-top,.person-header,.score-ring-wrap{display:flex;justify-content:space-between;gap:12px}
+    .cand-name,.person-title{font-weight:800}
+    .cand-role{font-size:.88rem;color:var(--muted)}
+    .score-pill{min-width:72px;text-align:center;padding:8px 10px;border-radius:999px;font-weight:800}
+    .high{background:rgba(49,211,139,.14);color:#92f0bc}
+    .mid{background:rgba(255,179,71,.14);color:#ffd18b}
+    .low{background:rgba(255,107,107,.14);color:#ffb3b3}
+    .toggle button{
+      border:none;border-radius:12px;padding:10px 12px;font-weight:700;cursor:pointer;
+      background:rgba(255,255,255,.05);color:#dce4f7;border:1px solid rgba(255,255,255,.08)
+    }
+    .toggle .active{background:linear-gradient(135deg,var(--accent),#5f35ff)}
+    .decision{padding:10px 14px;border-radius:999px;font-size:.86rem;font-weight:800}
+    .interview{background:rgba(49,211,139,.14);color:#8ff1bb}
+    .consider{background:rgba(255,179,71,.14);color:#ffd08a}
+    .reject{background:rgba(255,107,107,.14);color:#ffb3b3}
+    .ring{
+      width:116px;height:116px;border-radius:50%;display:grid;place-items:center;
+      background:conic-gradient(var(--accent) 0deg,var(--accent) calc(var(--pct)*3.6deg),rgba(255,255,255,.08) 0deg);
+      position:relative
+    }
+    .ring:after{
+      content:"";position:absolute;inset:10px;border-radius:50%;background:#0b1120;
+      border:1px solid rgba(255,255,255,.05)
+    }
+    .ring span{position:relative;z-index:1;font-size:2rem;font-weight:800}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .mini-panel{padding:16px}
+    .bars{display:grid;gap:10px}
+    .bar-row{display:grid;grid-template-columns:140px 1fr 42px;gap:10px;align-items:center}
+    .bar{height:10px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}
+    .bar>span{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+    .ok{color:#8ff1bb}.warnc{color:#ffd08a}.badc{color:#ffb3b3}
+    .compare-box{padding:14px;margin-bottom:14px}
+    .outcome{padding:10px 12px;border-radius:14px;font-weight:700;margin-top:8px}
+    .out-trad{background:rgba(255,107,107,.12);color:#ffb8b8}
+    .out-fair{background:rgba(49,211,139,.12);color:#9af2c0}
+    .gap-step{padding:12px;margin-bottom:10px}
+    .gap-step b{display:block;margin-bottom:4px}
+    @media (max-width:1200px){.layout,.hero,.grid2{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <div class="brand">AURA FairMatch Demo</div>
+        <div class="subtitle">Interactive ATS plugin mockup for a large industrial employer in Auvergne-Rhône-Alpes</div>
+      </div>
+      <div class="badge">Demo mode · simulated scoring · recruiter-facing view</div>
+    </div>
+
+    <div class="hero">
+      <div class="card hero-left">
+        <div class="eyebrow">Recruitment system redesign</div>
+        <h1>Industrial Electrician Hiring Demo</h1>
+        <div class="hero-copy">
+          This interactive mockup simulates how the <b>ATS FairMatch Layer</b> would help HR teams in a large AURA industrial company identify viable candidates that a traditional ATS would reject too early.
+        </div>
+        <div class="pills">
+          <div class="pill">Industrial hiring</div>
+          <div class="pill">License renewal logic</div>
+          <div class="pill">Explainable fit score</div>
+          <div class="pill">Gap plan</div>
+          <div class="pill">Near-match recovery</div>
+        </div>
+      </div>
+
+      <div class="card hero-right">
+        <div class="small">Scenario</div>
+        <h3 style="margin:6px 0">Large automotive parts manufacturer — AURA region</h3>
+        <div class="small">
+          Simulated vacancy for an <b>Industrial Electrician</b> at a major assembler supplying high-volume automotive components. The company operates with strict safety, compliance, and uptime requirements, so HR expects high technical knowledge and all requirements up to date.
+        </div>
+        <div class="pills">
+          <div class="pill">24/7 production lines</div>
+          <div class="pill">High compliance threshold</div>
+          <div class="pill">Tier-1 supplier context</div>
+          <div class="pill">FairMatch plugin installed</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="card jobbox">
+        <div class="job-title">Vacancy: Industrial Electrician</div>
+        <div class="company">Montlavier Mobility Components · Tier-1 automotive parts manufacturer</div>
+        <div class="small" style="margin-top:10px">
+          Responsible for electrical maintenance, diagnostics, and safe intervention on automated assembly equipment, conveyors, control cabinets, and production support systems.
+        </div>
+        <div class="list">
+          <div class="req"><span>Industrial electrical maintenance experience</span><span class="tag mandatory">Mandatory</span></div>
+          <div class="req"><span>Electrical safety authorization / license up to date</span><span class="tag mandatory">Mandatory</span></div>
+          <div class="req"><span>Ability to read schematics and troubleshoot faults</span><span class="tag mandatory">Mandatory</span></div>
+          <div class="req"><span>Production environment / manufacturing exposure</span><span class="tag preferred">Preferred</span></div>
+          <div class="req"><span>5+ years experience in industrial settings</span><span class="tag preferred">Preferred</span></div>
+          <div class="req"><span>PLC familiarity / preventive maintenance mindset</span><span class="tag preferred">Preferred</span></div>
+        </div>
+        <div class="small" style="margin-top:14px">
+          <b>Why hard to fill:</b> safety requirements are strict, equipment downtime is costly, and traditional ATS rules often over-penalize candidates with renewable licenses or short certification gaps.
+        </div>
+      </div>
+
+      <div class="card main-panel">
+        <div class="toggle">
+          <button id="viewFair" class="active">FairMatch view</button>
+          <button id="viewTrad">Traditional ATS view</button>
+        </div>
+
+        <div class="person-header">
+          <div>
+            <div class="person-title" id="candName"></div>
+            <div class="small" id="candMeta"></div>
+          </div>
+          <div class="decision" id="decisionBadge"></div>
+        </div>
+
+        <div class="score-ring-wrap">
+          <div class="ring" id="ring" style="--pct:64"><span id="scoreNum"></span></div>
+          <div style="max-width:460px">
+            <b id="scoreHeadline"></b>
+            <div class="small" id="scoreCopy"></div>
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div class="mini-panel">
+            <h4 style="margin:0 0 10px">Explainability</h4>
+            <div class="bars" id="explainBars"></div>
+          </div>
+          <div class="mini-panel">
+            <h4 style="margin:0 0 10px">Requirement check</h4>
+            <div id="reqChecklist"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card right-panel">
+        <div class="compare-box">
+          <h4 style="margin:0 0 10px">Traditional ATS result</h4>
+          <div class="small" id="tradWhy"></div>
+          <div class="outcome out-trad" id="tradOutcome"></div>
+        </div>
+
+        <div class="compare-box">
+          <h4 style="margin:0 0 10px">FairMatch result</h4>
+          <div class="small" id="fairWhy"></div>
+          <div class="outcome out-fair" id="fairOutcome"></div>
+        </div>
+
+        <div class="compare-box">
+          <h4 style="margin:0 0 10px">Gap plan</h4>
+          <div id="gapPlan"></div>
+          <div class="legend">
+            <span class="flag">Renewable license</span>
+            <span class="flag">Short certification</span>
+            <span class="flag">Economic path</span>
+            <span class="flag">Interview-ready</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card candidate-list" style="margin-top:18px">
+      <h3 style="margin:0 0 12px">Candidate pool</h3>
+      <div class="small" style="margin-bottom:12px">
+        Click a profile to simulate how the ATS plugin changes recruiter visibility and decision quality.
+      </div>
+      <div id="candidateList"></div>
+    </div>
+  </div>
+
+  <script>
+    const candidates = [
+      {
+        id:"marc",
+        name:"Marc Delaunay",
+        meta:"Industrial maintenance electrician · 7 years experience · Clermont-Ferrand",
+        score:64,
+        decision:"Consider with renewal",
+        decisionClass:"consider",
+        scoreHeadline:"Viable profile blocked by a renewable requirement",
+        scoreCopy:"Strong industrial experience and equipment exposure. Current ATS would reject this profile because the required license is expired, even though it can be renewed quickly.",
+        tradWhy:"Hard reject triggered by expired electrical authorization / work permit status.",
+        tradOutcome:"Rejected before recruiter review",
+        fairWhy:"Profile remains visible because the blocker is renewable and the underlying know-how is already present.",
+        fairOutcome:"Visible to recruiter with contextual gap plan",
+        flags:["7 years industrial experience","License expired","Manufacturing-ready"],
+        explain:[["Industrial maintenance",92],["Electrical troubleshooting",88],["Production environment",84],["License validity",22]],
+        reqs:[
+          ["Industrial electrical maintenance experience","ok","Strong evidence"],
+          ["Electrical safety authorization / license up to date","warn","Expired but renewable quickly"],
+          ["Read schematics and troubleshoot faults","ok","Demonstrated"],
+          ["Manufacturing exposure","ok","Automotive supplier background"],
+          ["5+ years industrial experience","ok","7 years"],
+          ["PLC / preventive maintenance","warn","Partial exposure"]
+        ],
+        gap:[
+          ["Renew license / authorization","Estimated closure: 1–2 weeks","Administrative renewal of a time-sensitive requirement, not a loss of know-how."],
+          ["Interview with maintenance lead","Next step","Validate recent exposure to production-line fault handling."]
+        ]
+      },
+      {
+        id:"claire",
+        name:"Claire Moreau",
+        meta:"Electromechanical technician · 4 years experience · Saint-Étienne",
+        score:80,
+        decision:"Interview now",
+        decisionClass:"interview",
+        scoreHeadline:"High-fit candidate often penalized by rigid thresholds",
+        scoreCopy:"Claire is highly aligned technically and operationally, but a traditional ATS may downrank her for having 4 years rather than an arbitrary 5+ years threshold.",
+        tradWhy:"Likely filtered or deprioritized by a rigid '5+ years' experience rule.",
+        tradOutcome:"May be excluded despite strong fit",
+        fairWhy:"FairMatch recognizes that all mandatory requirements are met and the missing point is a preferred threshold, not a true blocker.",
+        fairOutcome:"Recommended for interview with strong fit score",
+        flags:["Female candidate","4 years experience","High readiness"],
+        explain:[["Electrical diagnostics",90],["Manufacturing environment",86],["Schematics / maintenance",85],["Years threshold alignment",58]],
+        reqs:[
+          ["Industrial electrical maintenance experience","ok","Strong evidence"],
+          ["Electrical safety authorization / license up to date","ok","Valid and current"],
+          ["Read schematics and troubleshoot faults","ok","Demonstrated"],
+          ["Manufacturing exposure","ok","Assembly environment exposure"],
+          ["5+ years industrial experience","warn","4 years, close threshold"],
+          ["PLC / preventive maintenance","ok","Relevant exposure"]
+        ],
+        gap:[
+          ["No critical blocker","Interview-ready","Difference vs ideal profile is marginal and should not trigger exclusion."],
+          ["Optional onboarding boost","Estimated closure: 2–4 weeks","Internal familiarization with plant-specific automation setup."]
+        ]
+      },
+      {
+        id:"youssef",
+        name:"Youssef Benali",
+        meta:"Junior electrical technician · 2 years experience · Lyon outskirts",
+        score:39,
+        decision:"Consider with short training",
+        decisionClass:"consider",
+        scoreHeadline:"Near-match candidate with an attainable certification gap",
+        scoreCopy:"The profile is weaker than the top candidates, but not irrelevant. A traditional ATS would reject him outright for missing certification, while FairMatch identifies a short, economic path to viability.",
+        tradWhy:"Rejected due to missing certification and below-threshold experience.",
+        tradOutcome:"Rejected automatically",
+        fairWhy:"Core technical base exists, and the missing certification can be acquired through a short training path.",
+        fairOutcome:"Visible as near-match with training pathway",
+        flags:["Junior profile","Missing certification","Trainable"],
+        explain:[["Basic electrical foundation",68],["Industrial exposure",41],["Certification status",18],["Production troubleshooting",29]],
+        reqs:[
+          ["Industrial electrical maintenance experience","warn","Limited"],
+          ["Electrical safety authorization / license up to date","bad","Missing certification"],
+          ["Read schematics and troubleshoot faults","warn","Basic level"],
+          ["Manufacturing exposure","warn","Some exposure"],
+          ["5+ years industrial experience","bad","Below preferred threshold"],
+          ["PLC / preventive maintenance","bad","Low evidence"]
+        ],
+        gap:[
+          ["Short certification / workshop path","Estimated closure: 2–6 weeks","Economic training route to complete the missing certification requirement."],
+          ["Supervised onboarding","Estimated closure: 4–8 weeks","Structured ramp-up under senior maintenance support."]
+        ]
+      },
+      {
+        id:"karim",
+        name:"Karim Bouchareb",
+        meta:"Building electrician · 1.5 years experience · Grenoble",
+        score:18,
+        decision:"Reject",
+        decisionClass:"reject",
+        scoreHeadline:"Low-fit candidate for this specific industrial context",
+        scoreCopy:"Karim has electrical basics, but the profile lacks both industrial context and the required compliance depth for a high-criticality production environment.",
+        tradWhy:"Rejected for multiple missing mandatory signals.",
+        tradOutcome:"Rejected automatically",
+        fairWhy:"FairMatch also rejects this candidate, but does so transparently and shows why the profile is not a viable near-match today.",
+        fairOutcome:"Rejected with explicit reasons",
+        flags:["Non-industrial profile","Low readiness","Transparent reject"],
+        explain:[["Electrical basics",42],["Industrial maintenance",10],["License validity",25],["Production environment",9]],
+        reqs:[
+          ["Industrial electrical maintenance experience","bad","Insufficient"],
+          ["Electrical safety authorization / license up to date","warn","Unclear / partial"],
+          ["Read schematics and troubleshoot faults","warn","Basic"],
+          ["Manufacturing exposure","bad","No strong evidence"],
+          ["5+ years industrial experience","bad","Far below threshold"],
+          ["PLC / preventive maintenance","bad","No evidence"]
+        ],
+        gap:[
+          ["Not suitable for this vacancy","Current state","Gap is too wide for short remediation in a large, compliance-heavy industrial context."],
+          ["Alternative pathway","Recommendation","Redirect to junior or non-industrial electrician roles first."]
+        ]
+      }
+    ];
+
+    const el=id=>document.getElementById(id);
+    let activeId='marc', currentView='fair';
+
+    function scoreClass(s){ return s>=70?'high':s>=35?'mid':'low'; }
+    function statusColor(t){ return t==='ok'?'ok':t==='warn'?'warnc':'badc'; }
+    function statusText(t){ return t==='ok'?'Match':t==='warn'?'Attention':'Gap'; }
+
+    function renderCandidateList(){
+      el('candidateList').innerHTML = candidates.map(c => `
+        <div class="cand ${c.id===activeId?'active':''}" onclick="selectCandidate('${c.id}')">
+          <div class="cand-top">
+            <div>
+              <div class="cand-name">${c.name}</div>
+              <div class="cand-role">${c.meta}</div>
+            </div>
+            <div class="score-pill ${scoreClass(c.score)}">${c.score}</div>
+          </div>
+          <div class="cand-flags">${c.flags.map(f => `<span class="flag">${f}</span>`).join('')}</div>
+        </div>
+      `).join('');
+    }
+
+    function selectCandidate(id){
+      activeId = id;
+      const c = candidates.find(x => x.id === id);
+
+      el('candName').textContent = c.name;
+      el('candMeta').textContent = c.meta;
+      el('decisionBadge').textContent = c.decision;
+      el('decisionBadge').className = 'decision ' + c.decisionClass;
+      el('ring').style.setProperty('--pct', c.score);
+      el('scoreNum').textContent = c.score;
+      el('scoreHeadline').textContent = c.scoreHeadline;
+      el('scoreCopy').textContent = c.scoreCopy;
+      el('tradWhy').textContent = c.tradWhy;
+      el('tradOutcome').textContent = c.tradOutcome;
+      el('fairWhy').textContent = c.fairWhy;
+      el('fairOutcome').textContent = c.fairOutcome;
+
+      el('explainBars').innerHTML = c.explain.map(([l,v]) => `
+        <div class="bar-row">
+          <div class="small">${l}</div>
+          <div class="bar"><span style="width:${v}%"></span></div>
+          <div class="small">${v}</div>
+        </div>
+      `).join('');
+
+      el('reqChecklist').innerHTML = c.reqs.map(([l,t,m]) => `
+        <div class="item">
+          <div>
+            <div>${l}</div>
+            <div class="small">${m}</div>
+          </div>
+          <div class="${statusColor(t)}" style="font-weight:800">${statusText(t)}</div>
+        </div>
+      `).join('');
+
+      el('gapPlan').innerHTML = c.gap.map(([t,tm,d]) => `
+        <div class="gap-step">
+          <b>${t}</b>
+          <div class="small" style="margin-bottom:6px">${tm}</div>
+          <div class="small">${d}</div>
+        </div>
+      `).join('');
+
+      renderCandidateList();
+      updateView();
+    }
+
+    function updateView(){
+      const fair = currentView === 'fair';
+      el('viewFair').classList.toggle('active', fair);
+      el('viewTrad').classList.toggle('active', !fair);
+    }
+
+    el('viewFair').onclick = () => { currentView='fair'; updateView(); };
+    el('viewTrad').onclick = () => { currentView='trad'; updateView(); };
+
+    renderCandidateList();
+    selectCandidate(activeId);
+  </script>
+</body>
+</html>
