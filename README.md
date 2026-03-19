@@ -243,10 +243,10 @@ Evaluated on:
  
 **Estefania Granda Orozco**
 
-**And credit to my teammates!**
-Manuela Marques de Toledo Piza
-Christian Kadima
-Niloofar Vafa
+**And credit to my teammates, whitout them this wouldnt be possible!**
+-Manuela Marques de Toledo Piza
+-Christian Kadima
+-Niloofar Vafa
 
 ---
 
